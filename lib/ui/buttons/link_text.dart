@@ -1,20 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LinkText extends StatelessWidget {
+class LinkText extends StatefulWidget {
   final String text;
-  const LinkText({super.key, required this.text});
+  final Function? onPressed;
+  const LinkText({super.key, required this.text, this.onPressed});
 
   @override
+  State<LinkText> createState() => _LinkTextState();
+}
+
+class _LinkTextState extends State<LinkText> {
+  bool isHover = false;
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      child: Text(
-        text,
-        style: GoogleFonts.montserrat(
-            fontSize: 20,
-            color: Colors.grey[700],
-            decoration: TextDecoration.underline),
+    return GestureDetector(
+      onTap: (){
+        if (widget.onPressed != null) widget.onPressed!();
+      },
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => isHover = true),
+        onExit: (_) => setState(() => isHover = false),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          child: Text(
+            widget.text,
+            style: GoogleFonts.montserrat(
+              fontSize: 20,
+              color: Colors.grey[700],
+              decoration:
+                  isHover ? TextDecoration.underline : TextDecoration.none,
+            ),
+          ),
+        ),
       ),
     );
   }

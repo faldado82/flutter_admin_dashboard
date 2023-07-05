@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/ui/layouts/auth/widgets/background_twitter.dart';
 import 'package:flutter_admin_dashboard/ui/layouts/auth/widgets/custom_title.dart';
+import 'package:flutter_admin_dashboard/ui/layouts/auth/widgets/links_bar.dart';
 
 // los layouts si tienen scaffold
 // las vistas no tienen scaffold
@@ -13,12 +14,14 @@ class AuthLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
+      physics: const ClampingScrollPhysics(),
       children: [
         // Desktop
-        _DesktopBody(child: child)
+        _DesktopBody(child: child),
         // Mobile
 
         // LinksBar
+        const LinksBar(),
       ],
     ));
   }
@@ -34,7 +37,7 @@ class _DesktopBody extends StatelessWidget {
 
     return Container(
       width: size.width,
-      height: size.height,
+      height: size.height * 0.9,
       color: Colors.amber,
       child: Row(
         children: [

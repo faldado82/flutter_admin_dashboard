@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/ui/layouts/auth/widgets/background_twitter.dart';
+import 'package:flutter_admin_dashboard/ui/layouts/auth/widgets/custom_title.dart';
 
 // los layouts si tienen scaffold
 // las vistas no tienen scaffold
 
 class AuthLayout extends StatelessWidget {
-  const AuthLayout({super.key});
+  final Widget child;
+  const AuthLayout({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class AuthLayout extends StatelessWidget {
         body: ListView(
       children: [
         // Desktop
-        _DesktopBody()
+        _DesktopBody(child: child)
         // Mobile
 
         // LinksBar
@@ -23,6 +25,9 @@ class AuthLayout extends StatelessWidget {
 }
 
 class _DesktopBody extends StatelessWidget {
+  final Widget child;
+
+  const _DesktopBody({super.key, required this.child});
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -41,7 +46,13 @@ class _DesktopBody extends StatelessWidget {
             width: 600,
             height: double.infinity,
             color: Colors.black,
-            // child: // TODO: View LoginForm
+            child: Column(
+              children: [
+                const CustomTitle(),
+                const SizedBox(height: 30),
+                Expanded(child: child)
+              ],
+            ),
           ),
         ],
       ),

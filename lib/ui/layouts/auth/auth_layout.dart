@@ -13,28 +13,42 @@ class AuthLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    ScrollController scrollController =
+        ScrollController(initialScrollOffset: 0);
+
+    // para agregar una barra de desplazamiento, necesitamos agregar el Scrollbar
+    // para ello tambien sera necesario agregar el ScrollController
+    // y adicionarlo tanto dentro del Scrollbar como dentro del ListView
+    // por ultimo en el main, manejo el estilo del scrollbar
 
     return Scaffold(
-        body: ListView(
-      physics: const ClampingScrollPhysics(),
-      children: [
-        (size.width > 1000)
-            ? _DesktopBody(child: child)
-            : _MobileBody(child: child),
+        body: Scrollbar(
+      thumbVisibility: true,
+      controller: scrollController,
+      child: ListView(
+        controller: scrollController,
+        physics: const ClampingScrollPhysics(),
+        children: [
+          (size.width > 1000)
+              ? Expanded(child: _DesktopBody(child: child))
+              : _MobileBody(child: child),
 
-        // LinksBar
-        const LinksBar(),
-      ],
+          // LinksBar
+          const LinksBar(),
+        ],
+      ),
     ));
   }
 }
 
 class _MobileBody extends StatelessWidget {
   final Widget child;
-  const _MobileBody({super.key, required this.child});
+
+  const _MobileBody({required this.child});
 
   @override
   Widget build(BuildContext context) {
+    // final size = MediaQuery.of(context).size;
     return Container(
       color: Colors.black,
       child: Column(
@@ -42,12 +56,12 @@ class _MobileBody extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
           const CustomTitle(),
-          Container(
+          SizedBox(
             width: double.infinity,
             height: 420,
-            child: child,
+            child: child, // child is LoginView
           ),
-          Container(
+          const SizedBox(
             width: double.infinity,
             height: 400,
             child: BackgroundTwitter(),
@@ -61,7 +75,7 @@ class _MobileBody extends StatelessWidget {
 class _DesktopBody extends StatelessWidget {
   final Widget child;
 
-  const _DesktopBody({super.key, required this.child});
+  const _DesktopBody({required this.child});
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

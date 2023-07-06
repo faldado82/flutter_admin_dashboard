@@ -22,22 +22,23 @@ class AuthLayout extends StatelessWidget {
     // por ultimo en el main, manejo el estilo del scrollbar
 
     return Scaffold(
+        backgroundColor: Colors.black,
         body: Scrollbar(
-      thumbVisibility: true,
-      controller: scrollController,
-      child: ListView(
-        controller: scrollController,
-        physics: const ClampingScrollPhysics(),
-        children: [
-          (size.width > 1000)
-              ? Expanded(child: _DesktopBody(child: child))
-              : _MobileBody(child: child),
+          thumbVisibility: true,
+          controller: scrollController,
+          child: ListView(
+            controller: scrollController,
+            physics: const ClampingScrollPhysics(),
+            children: [
+              (size.width > 1000)
+                  ? _DesktopBody(child: child)
+                  : _MobileBody(child: child),
 
-          // LinksBar
-          const LinksBar(),
-        ],
-      ),
-    ));
+              // LinksBar
+              const LinksBar(),
+            ],
+          ),
+        ));
   }
 }
 
@@ -50,7 +51,7 @@ class _MobileBody extends StatelessWidget {
   Widget build(BuildContext context) {
     // final size = MediaQuery.of(context).size;
     return Container(
-      color: Colors.black,
+      // color: Colors.black,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -63,7 +64,7 @@ class _MobileBody extends StatelessWidget {
           ),
           const SizedBox(
             width: double.infinity,
-            height: 400,
+            height: 500,
             child: BackgroundTwitter(),
           ),
         ],
@@ -87,7 +88,7 @@ class _DesktopBody extends StatelessWidget {
       child: Row(
         children: [
           // Flex - Twitter Background
-          const BackgroundTwitter(),
+          const Expanded(child: BackgroundTwitter()),
 
           // Static - Login Form View
           Container(

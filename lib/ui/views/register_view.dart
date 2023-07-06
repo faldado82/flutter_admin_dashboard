@@ -6,13 +6,13 @@ import 'package:flutter_admin_dashboard/ui/buttons/link_text.dart';
 // las vistas no tienen scaffold
 // los layouts si tienen scaffold
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class RegisterView extends StatelessWidget {
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 100),
+      //margin: const EdgeInsets.only(top: 100),
       padding: const EdgeInsets.symmetric(horizontal: 100),
       //color: Colors.red,
       child: Center(
@@ -21,6 +21,16 @@ class LoginView extends StatelessWidget {
           child: Form(
               child: Column(
             children: [
+              //Nombre y Apellido
+              TextFormField(
+                // validator:
+                style: const TextStyle(color: Colors.white, fontSize: 20),
+                decoration: _buildInputDecoration(
+                    hint: 'Enter your Full Name',
+                    label: 'First and Last Name',
+                    icon: Icons.person_outlined),
+              ),
+              const SizedBox(height: 20),
               //Email
               TextFormField(
                 // validator:
@@ -45,16 +55,16 @@ class LoginView extends StatelessWidget {
 
               CustomOutlinedButton(
                 onPressed: () {},
-                text: 'Enter',
+                text: 'Register',
                 // color: Colors.indigoAccent,
                 // isFilled: true,
               ),
 
               const SizedBox(height: 20),
               LinkText(
-                text: 'Go to Register',
+                text: 'Go to Login',
                 onPressed: () {
-                  Navigator.pushNamed(context, Flurorouter.registerRoute);
+                  Navigator.pushNamed(context, Flurorouter.loginRoute);
                 },
               ),
             ],

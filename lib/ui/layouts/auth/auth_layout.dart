@@ -51,7 +51,7 @@ class _MobileBody extends StatelessWidget {
   Widget build(BuildContext context) {
     // final size = MediaQuery.of(context).size;
     return Container(
-      // color: Colors.black,
+      color: Colors.black,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

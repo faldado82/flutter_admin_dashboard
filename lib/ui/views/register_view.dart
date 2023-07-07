@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
 import 'package:flutter_admin_dashboard/ui/buttons/custom_outlined_button.dart';
 import 'package:flutter_admin_dashboard/ui/buttons/link_text.dart';
+import 'package:flutter_admin_dashboard/ui/inputs/custom_inputs.dart';
 
 // las vistas no tienen scaffold
 // los layouts si tienen scaffold
@@ -25,7 +26,7 @@ class RegisterView extends StatelessWidget {
               TextFormField(
                 // validator:
                 style: const TextStyle(color: Colors.white, fontSize: 20),
-                decoration: _buildInputDecoration(
+                decoration: CustomInputs.loginInputDecoration(
                     hint: 'Enter your Full Name',
                     label: 'First and Last Name',
                     icon: Icons.person_outlined),
@@ -35,7 +36,7 @@ class RegisterView extends StatelessWidget {
               TextFormField(
                 // validator:
                 style: const TextStyle(color: Colors.white, fontSize: 20),
-                decoration: _buildInputDecoration(
+                decoration: CustomInputs.loginInputDecoration(
                     hint: 'Enter your email',
                     label: 'Email',
                     icon: Icons.email_outlined),
@@ -46,7 +47,7 @@ class RegisterView extends StatelessWidget {
                 // validator:
                 obscureText: true,
                 style: const TextStyle(color: Colors.white, fontSize: 20),
-                decoration: _buildInputDecoration(
+                decoration: CustomInputs.loginInputDecoration(
                     hint: 'Enter your password',
                     label: 'Password',
                     icon: Icons.lock_outline),
@@ -71,26 +72,6 @@ class RegisterView extends StatelessWidget {
           )),
         ),
       ),
-    );
-  }
-
-  InputDecoration _buildInputDecoration({
-    required String hint,
-    required String label,
-    required IconData icon,
-  }) {
-    return InputDecoration(
-      border: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
-      ),
-      hintText: hint,
-      labelText: label,
-      prefixIcon: Icon(icon, color: Colors.grey),
-      hintStyle: const TextStyle(color: Colors.grey),
-      labelStyle: const TextStyle(color: Colors.grey),
     );
   }
 }

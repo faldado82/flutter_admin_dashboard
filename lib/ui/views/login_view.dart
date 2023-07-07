@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/providers/login_form_provider.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
@@ -21,20 +22,29 @@ class LoginView extends StatelessWidget {
             Provider.of<LoginFormProvider>(context, listen: false);
 
         return Container(
-          margin: const EdgeInsets.only(top: 100),
+          margin: const EdgeInsets.only(top: 80),
           padding: const EdgeInsets.symmetric(horizontal: 100),
           //color: Colors.red,
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 370),
               child: Form(
+                  // autovalidate mode chequea con cada tecla que sea valido
+                  autovalidateMode: AutovalidateMode.always,
                   // key del formProvider traido desde login_form_provider.dart
                   key: loginFormProvider.formKey,
                   child: Column(
                     children: [
                       //Email
                       TextFormField(
-                        // validator:
+                        // email_validator package
+                        validator: (value) {
+                          if (!EmailValidator.validate(value ?? '')) {
+                            return 'Email not valid'; // si el mail no es valido se manda mensaje
+                          }
+                          return null;
+                        },
+                        onChanged: (value) => loginFormProvider.email = value,
                         style:
                             const TextStyle(color: Colors.white, fontSize: 20),
                         decoration: CustomInputs.loginInputDecoration(
@@ -45,9 +55,11 @@ class LoginView extends StatelessWidget {
                       const SizedBox(height: 20),
                       //Password
                       TextFormField(
+                        onChanged: (value) =>
+                            loginFormProvider.password = value,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Enter Yoour Password';
+                            return 'Enter Your Password';
                           }
                           if (value.length <= 6) {
                             return 'Password must contain 6 or more characters';

@@ -55,16 +55,16 @@ class _MobileBody extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
           const CustomTitle(),
+          const SizedBox(height: 30),
           SizedBox(
             width: double.infinity,
-            height: 420,
+            height: 560,
             child: child, // child is LoginView
           ),
           const SizedBox(
             width: double.infinity,
-            height: 500,
+            height: 340,
             child: BackgroundTwitter(),
           ),
         ],

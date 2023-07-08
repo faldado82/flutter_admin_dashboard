@@ -22,12 +22,12 @@ class LoginView extends StatelessWidget {
             Provider.of<LoginFormProvider>(context, listen: false);
 
         return Container(
-          margin: const EdgeInsets.only(top: 80),
+          margin: const EdgeInsets.only(top: 50),
           padding: const EdgeInsets.symmetric(horizontal: 100),
           //color: Colors.red,
           child: Center(
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 370),
+              constraints: const BoxConstraints(maxHeight: 450),
               child: Form(
                   // autovalidate mode chequea con cada tecla que sea valido
                   autovalidateMode: AutovalidateMode.always,

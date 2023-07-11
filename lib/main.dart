@@ -21,10 +21,7 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          lazy: false,
-          create: (_) => AuthProvider(),
-        ),
+        ChangeNotifierProvider(lazy: false, create: (_) => AuthProvider()),
       ],
       child: const MyApp(),
     );

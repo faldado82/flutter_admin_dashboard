@@ -8,6 +8,7 @@ class SplashLayout extends StatelessWidget {
     return const Scaffold(
         body: Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircularProgressIndicator(),
           SizedBox(height: 20),

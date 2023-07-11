@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_admin_dashboard/providers/register_form_provider.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
 import 'package:flutter_admin_dashboard/ui/buttons/custom_outlined_button.dart';
@@ -36,12 +37,18 @@ class RegisterView extends StatelessWidget {
                         children: [
                           //Nombre y Apellido
                           TextFormField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[a-zA-ZÀ-ÿ.\s]')),
+                              // Permite solo letras y espacios
+                              _CapitalizedWordsTextFormatter(),
+                            ],
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Enter Your Full Name';
                               }
-                              if (value.length <= 7) {
-                                return 'You First Name  and Last Name must have at least 3 characters'; // si el mail no es valido se manda mensaje
+                              if (value.length <= 6) {
+                                return 'You First Name  and Last Name must have at least 6 characters'; // si el mail no es valido se manda mensaje
                               }
                               return null;
                             },
@@ -57,6 +64,8 @@ class RegisterView extends StatelessWidget {
                           const SizedBox(height: 20),
                           //Email
                           TextFormField(
+                            onChanged: (value) =>
+                                registerFormProvider.email = value,
                             validator: (value) {
                               if (!EmailValidator.validate(value ?? '')) {
                                 return 'Email not valid'; // si el mail no es valido se manda mensaje
@@ -103,7 +112,9 @@ class RegisterView extends StatelessWidget {
                           const SizedBox(height: 40),
 
                           CustomOutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              registerFormProvider.validateForm();
+                            },
                             text: 'Register',
                             // color: Colors.indigoAccent,
                             // isFilled: true,
@@ -122,5 +133,28 @@ class RegisterView extends StatelessWidget {
                 ),
               ));
         }));
+  }
+}
+
+class _CapitalizedWordsTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String capitalizedText = newValue.text.toLowerCase();
+    List<String> words = capitalizedText.split(' ');
+
+    for (int i = 0; i < words.length; i++) {
+      String word = words[i];
+      if (word.isNotEmpty) {
+        words[i] = word[0].toUpperCase() + word.substring(1);
+      }
+    }
+
+    capitalizedText = words.join(' ');
+
+    return TextEditingValue(
+      text: capitalizedText,
+      selection: newValue.selection,
+    );
   }
 }

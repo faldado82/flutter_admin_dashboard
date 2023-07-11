@@ -12,7 +12,7 @@ class AuthLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
     ScrollController scrollController =
         ScrollController(initialScrollOffset: 0);
 
@@ -79,12 +79,12 @@ class _DesktopBody extends StatelessWidget {
   const _DesktopBody({required this.child});
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.sizeOf(context);
 
     return Container(
       width: size.width,
       height: size.height * 0.9,
-      color: Colors.amber,
+      color: Colors.black,
       child: Row(
         children: [
           // Flex - Twitter Background

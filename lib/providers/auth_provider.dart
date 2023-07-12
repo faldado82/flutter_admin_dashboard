@@ -40,6 +40,7 @@ class AuthProvider extends ChangeNotifier {
     //simulamos autenticacion
     await Future.delayed(const Duration(seconds: 1));
     authStatus = AuthStatus.authenticated;
+    notifyListeners();
     return true;
   }
 }

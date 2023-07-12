@@ -4,8 +4,8 @@
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter_admin_dashboard/providers/auth_provider.dart';
+import 'package:flutter_admin_dashboard/ui/views/dashbord_view.dart';
 import 'package:flutter_admin_dashboard/ui/views/login_view.dart';
-import 'package:flutter_admin_dashboard/ui/views/main_dashbord_view.dart';
 import 'package:flutter_admin_dashboard/ui/views/register_view.dart';
 import 'package:provider/provider.dart';
 
@@ -14,21 +14,19 @@ class AdminHandlers {
     final authProvider = Provider.of<AuthProvider>(context!);
 
     if (authProvider.authStatus == AuthStatus.notAuthenticated) {
-      const LoginView();
+      return const LoginView();
     } else {
-      return const MainDashboardView();
+      return const DashboardView();
     }
-    return null;
   });
 
   static Handler register = Handler(handlerFunc: (context, parameters) {
     final authProvider = Provider.of<AuthProvider>(context!);
 
     if (authProvider.authStatus == AuthStatus.notAuthenticated) {
-      const RegisterView();
+      return const RegisterView();
     } else {
-      return const MainDashboardView();
+      return const DashboardView();
     }
-    return null;
   });
 }

@@ -22,14 +22,13 @@ class AuthProvider extends ChangeNotifier {
     // navegar al dashboard
     authStatus = AuthStatus.authenticated;
     notifyListeners();
-
     NavigationService.replaceTo(Flurorouter.dashboardRoute);
   }
 
   Future<bool> isAuthenticated() async {
     // no esta autenticado
     final token = LocalStorage.prefs.getString('token');
-    
+
     if (token == null) {
       authStatus = AuthStatus.notAuthenticated;
       notifyListeners();

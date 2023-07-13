@@ -14,7 +14,7 @@ class Logo extends StatelessWidget {
           const Icon(Icons.bubble_chart_outlined, color: Color(0xff7a6bf5)),
           const SizedBox(width: 10),
           Text(
-            'Admin',
+            'Admin Panel',
             style: GoogleFonts.montserratAlternates(
                 fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
           )

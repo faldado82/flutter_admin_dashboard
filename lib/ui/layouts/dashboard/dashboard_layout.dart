@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin_dashboard/ui/shared/navbar.dart';
 import 'package:flutter_admin_dashboard/ui/shared/sidebar.dart';
 
 class DashboardLayout extends StatelessWidget {
@@ -13,8 +14,20 @@ class DashboardLayout extends StatelessWidget {
         body: Row(
           children: [
             // TODO hacer mas de 700px y menos de 700px
+            // Admin Panel (Logo) y MenuItems (ListView de Iconos)
             const Sidebar(),
-            Expanded(child: child)
+
+            Expanded(
+              child: Column(
+                children: [
+                  // Navbar
+                  const Navbar(),
+
+                  // View (Vista de la pagina)
+                  Expanded(child: child),
+                ],
+              ),
+            )
           ],
         ));
   }

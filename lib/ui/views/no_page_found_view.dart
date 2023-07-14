@@ -10,7 +10,7 @@ class NoPageFoundView extends StatelessWidget {
       color: Colors.red,
       child: Center(
         child: Text(
-          '404 - Error, No Page Found',
+          '404 - Error\nPage not Found',
           style: GoogleFonts.montserratAlternates(fontSize: 50),
         ),
       ),

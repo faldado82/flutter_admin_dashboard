@@ -5,6 +5,7 @@ import 'package:flutter_admin_dashboard/providers/side_menu_provider.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
 import 'package:flutter_admin_dashboard/services/local_storage.dart';
 import 'package:flutter_admin_dashboard/services/navigation_service.dart';
+import 'package:flutter_admin_dashboard/services/notifications_service.dart';
 import 'package:flutter_admin_dashboard/ui/layouts/auth/auth_layout.dart';
 import 'package:flutter_admin_dashboard/ui/layouts/dashboard/dashboard_layout.dart';
 import 'package:flutter_admin_dashboard/ui/layouts/splash/splash_layout.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', // Flurorouter.root o Flurorouter.login es lo mismo
       onGenerateRoute: Flurorouter.router.generator,
       navigatorKey: NavigationService.navigatorKey,
+      scaffoldMessengerKey: NotificationsService.messengerKey,
       builder: (_, child) {
         final authProvider = Provider.of<AuthProvider>(context);
         if (authProvider.authStatus == AuthStatus.checking) {

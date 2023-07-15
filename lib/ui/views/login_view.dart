@@ -21,8 +21,7 @@ class LoginView extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => LoginFormProvider(),
       child: Builder(builder: (context) {
-        final loginFormProvider =
-            Provider.of<LoginFormProvider>(context, listen: false);
+        final loginFormProvider = Provider.of<LoginFormProvider>(context, listen: false);
 
         return Container(
           margin: const EdgeInsets.only(top: 50),
@@ -48,18 +47,14 @@ class LoginView extends StatelessWidget {
                           return null;
                         },
                         onChanged: (value) => loginFormProvider.email = value,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 20),
+                        style: const TextStyle(color: Colors.white, fontSize: 20),
                         decoration: CustomInputs.loginInputDecoration(
-                            hint: 'Enter your email',
-                            label: 'Email',
-                            icon: Icons.email_outlined),
+                            hint: 'Enter your email', label: 'Email', icon: Icons.email_outlined),
                       ),
                       const SizedBox(height: 20),
                       //Password
                       TextFormField(
-                        onChanged: (value) =>
-                            loginFormProvider.password = value,
+                        onChanged: (value) => loginFormProvider.password = value,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Enter Your Password';
@@ -78,8 +73,7 @@ class LoginView extends StatelessWidget {
                           return null; // Password valido
                         },
                         obscureText: true,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 20),
+                        style: const TextStyle(color: Colors.white, fontSize: 20),
                         decoration: CustomInputs.loginInputDecoration(
                             hint: 'Enter your password',
                             label: 'Password',
@@ -93,8 +87,10 @@ class LoginView extends StatelessWidget {
                           final isValid = loginFormProvider.validateForm();
 
                           if (isValid) {
-                            authProvider.login(loginFormProvider.email,
-                                loginFormProvider.password);
+                            authProvider.login(
+                              loginFormProvider.email,
+                              loginFormProvider.password,
+                            );
                           }
                         },
                         text: 'Enter',
@@ -106,8 +102,7 @@ class LoginView extends StatelessWidget {
                       LinkText(
                         text: 'Go to Register',
                         onPressed: () {
-                          Navigator.pushNamed(
-                              context, Flurorouter.registerRoute);
+                          Navigator.pushNamed(context, Flurorouter.registerRoute);
                         },
                       ),
                     ],

@@ -4,6 +4,7 @@ import 'package:flutter_admin_dashboard/models/http/auth_response.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
 import 'package:flutter_admin_dashboard/services/local_storage.dart';
 import 'package:flutter_admin_dashboard/services/navigation_service.dart';
+import 'package:flutter_admin_dashboard/services/notifications_service.dart';
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
 
@@ -17,7 +18,30 @@ class AuthProvider extends ChangeNotifier {
   }
 
   login(String email, String password) {
+    final data = {'correo': email, 'password': password};
+
+    CafeApi.httpPost('/auth/login', data).then((json) {
+      print(json);
+      final authResponse = AuthResponse.fromMap(json);
+      user = authResponse.usuario;
+      // navegar al dashboard
+      authStatus = AuthStatus.authenticated;
+      LocalStorage.prefs.setString('token', authResponse.token);
+      //LocalStorage.prefs.getString('token');
+      NavigationService.replaceTo(Flurorouter.dashboardRoute);
+      notifyListeners();
+    }).catchError((e) {
+      print('Error en: $e');
+      NotificationsService.showSnackBarError('User or Password not valid');
+    });
+    
+    
+    
     // Todo peticion http
+
+
+
+
     _token = 'asasasasasaasdwwesdsdasdfgasg';
     LocalStorage.prefs.setString('token', _token!);
     LocalStorage.prefs.getString('token');
@@ -43,10 +67,8 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
     }).catchError((e) {
       print('Error en: $e');
-      //TODO Mostrar notificacion de error
+      NotificationsService.showSnackBarError('User or Password not valid');
     });
-
-
   }
 
   Future<bool> isAuthenticated() async {

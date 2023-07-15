@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_admin_dashboard/providers/auth_provider.dart';
 import 'package:flutter_admin_dashboard/providers/register_form_provider.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
 import 'package:flutter_admin_dashboard/ui/buttons/custom_outlined_button.dart';
@@ -113,7 +114,18 @@ class RegisterView extends StatelessWidget {
 
                           CustomOutlinedButton(
                             onPressed: () {
-                              registerFormProvider.validateForm();
+                              final validForm =
+                                  registerFormProvider.validateForm();
+                              if (!validForm) return;
+
+                              final authProvider = Provider.of<AuthProvider>(
+                                  context,
+                                  listen: false);
+                              authProvider.register(
+                                registerFormProvider.email,
+                                registerFormProvider.password,
+                                registerFormProvider.fullName,
+                              );
                             },
                             text: 'Register',
                             // color: Colors.indigoAccent,

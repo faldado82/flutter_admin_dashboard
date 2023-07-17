@@ -16,30 +16,29 @@ class Flurorouter {
   //Dashboard Route
   static String dashboardRoute = '/dashboard';
   static String iconsRoute = '/dashboard/icons';
+  static String categoriesRoute = '/dashboard/categories';
   static String blankRoute = '/dashboard/blank';
 
   // Configure Routes with Handlers
   static void configureRoutes() {
     // Auth Routes
-    router.define(rootRoute,
-        handler: AdminHandlers.login, transitionType: TransitionType.none);
-    router.define(loginRoute,
-        handler: AdminHandlers.login, transitionType: TransitionType.none);
+    router.define(rootRoute, handler: AdminHandlers.login, transitionType: TransitionType.none);
+    router.define(loginRoute, handler: AdminHandlers.login, transitionType: TransitionType.none);
     router.define(registerRoute,
         handler: AdminHandlers.register, transitionType: TransitionType.none);
 
     // Dashboard Routes
     router.define(dashboardRoute,
-        handler: DashboardHandlers.dashboard,
-        transitionType: TransitionType.fadeIn);
+        handler: DashboardHandlers.dashboard, transitionType: TransitionType.fadeIn);
 
     router.define(iconsRoute,
-        handler: DashboardHandlers.icons,
-        transitionType: TransitionType.fadeIn);
+        handler: DashboardHandlers.icons, transitionType: TransitionType.fadeIn);
+
+    router.define(categoriesRoute,
+        handler: DashboardHandlers.categories, transitionType: TransitionType.fadeIn);
 
     router.define(blankRoute,
-        handler: DashboardHandlers.blank,
-        transitionType: TransitionType.fadeIn);
+        handler: DashboardHandlers.blank, transitionType: TransitionType.fadeIn);
 
     // 404 Error - Page not found
     router.notFoundHandler = NoPageFoundHandlers.noPageFound;

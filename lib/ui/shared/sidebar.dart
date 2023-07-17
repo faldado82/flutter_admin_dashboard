@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin_dashboard/providers/auth_provider.dart';
 import 'package:flutter_admin_dashboard/providers/side_menu_provider.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
 import 'package:flutter_admin_dashboard/services/navigation_service.dart';
@@ -32,34 +33,15 @@ class Sidebar extends StatelessWidget {
           MenuItem(
             text: 'Dashboard',
             icon: Icons.compass_calibration_outlined,
-            isActive:
-                sideMenuProvider.currentPage == Flurorouter.dashboardRoute,
+            isActive: sideMenuProvider.currentPage == Flurorouter.dashboardRoute,
             onPressed: () => navigateTo(Flurorouter.dashboardRoute),
           ),
-          MenuItem(
-              text: 'Orders',
-              icon: Icons.shopping_cart_checkout_outlined,
-              onPressed: () {}),
-          MenuItem(
-              text: 'Analytics',
-              icon: Icons.show_chart_outlined,
-              onPressed: () {}),
-          MenuItem(
-              text: 'Categories',
-              icon: Icons.layers_outlined,
-              onPressed: () {}),
-          MenuItem(
-              text: 'Products',
-              icon: Icons.dashboard_outlined,
-              onPressed: () {}),
-          MenuItem(
-              text: 'Discounts',
-              icon: Icons.attach_money_outlined,
-              onPressed: () {}),
-          MenuItem(
-              text: 'Customers',
-              icon: Icons.people_alt_outlined,
-              onPressed: () {}),
+          MenuItem(text: 'Orders', icon: Icons.shopping_cart_checkout_outlined, onPressed: () {}),
+          MenuItem(text: 'Analytics', icon: Icons.show_chart_outlined, onPressed: () {}),
+          MenuItem(text: 'Categories', icon: Icons.layers_outlined, onPressed: () {}),
+          MenuItem(text: 'Products', icon: Icons.dashboard_outlined, onPressed: () {}),
+          MenuItem(text: 'Discounts', icon: Icons.attach_money_outlined, onPressed: () {}),
+          MenuItem(text: 'Customers', icon: Icons.people_alt_outlined, onPressed: () {}),
           const SizedBox(height: 30),
           const TextSeparator(text: 'UI Elements'),
           MenuItem(
@@ -89,7 +71,9 @@ class Sidebar extends StatelessWidget {
           MenuItem(
               text: 'LogOut',
               icon: Icons.exit_to_app_outlined,
-              onPressed: () {}),
+              onPressed: () {
+                Provider.of<AuthProvider>(context, listen: false).logout();
+              }),
         ],
       ),
     );

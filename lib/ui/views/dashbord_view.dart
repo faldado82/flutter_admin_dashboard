@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_admin_dashboard/providers/auth_provider.dart';
 import 'package:flutter_admin_dashboard/ui/cards/white_card.dart';
 import 'package:flutter_admin_dashboard/ui/labels/custom_labels.dart';
+import 'package:provider/provider.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Container(
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
           Text('Dashboard View', style: CustomLabels.h1),
           const SizedBox(height: 30),
-          const WhiteCard(title: 'Sales Stadistic', child: Text('Hola Mundo'))
+          WhiteCard(
+              title: 'Bienvenido/a ${authProvider.user!.nombre}.',
+              child: Text('Tu usuario de login es: ${authProvider.user!.correo}')),
         ],
       ),
     );

@@ -39,6 +39,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       //Email
                       TextFormField(
+                        onFieldSubmitted: (_) => onFormSubmit(loginFormProvider, authProvider),
                         // email_validator package
                         validator: (value) {
                           if (!EmailValidator.validate(value ?? '')) {
@@ -54,6 +55,7 @@ class LoginView extends StatelessWidget {
                       const SizedBox(height: 20),
                       //Password
                       TextFormField(
+                        onFieldSubmitted: (_) => onFormSubmit(loginFormProvider, authProvider),
                         onChanged: (value) => loginFormProvider.password = value,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -82,17 +84,8 @@ class LoginView extends StatelessWidget {
                       const SizedBox(height: 30),
 
                       CustomOutlinedButton(
-                        onPressed: () {
-                          // al apretar el boton se valida el form en login_form_provider.dart
-                          final isValid = loginFormProvider.validateForm();
-
-                          if (isValid) {
-                            authProvider.login(
-                              loginFormProvider.email,
-                              loginFormProvider.password,
-                            );
-                          }
-                        },
+                        // al apretar el boton se valida el form en login_form_provider.dart
+                        onPressed: () => onFormSubmit(loginFormProvider, authProvider),
                         text: 'Enter',
                         // color: Colors.indigoAccent,
                         // isFilled: true,
@@ -112,5 +105,12 @@ class LoginView extends StatelessWidget {
         );
       }),
     );
+  }
+
+  void onFormSubmit(LoginFormProvider loginFormProvider, AuthProvider authProvider) {
+    final isValid = loginFormProvider.validateForm();
+    if (isValid) {
+      authProvider.login(loginFormProvider.email, loginFormProvider.password);
+    }
   }
 }

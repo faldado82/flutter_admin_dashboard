@@ -17,9 +17,11 @@ class AuthProvider extends ChangeNotifier {
     isAuthenticated();
   }
 
+  // LOGIN
   login(String email, String password) {
     final data = {'correo': email, 'password': password};
 
+    // Peticion http POST LOGIN
     CafeApi.httpPost('/auth/login', data).then((json) {
       print(json);
       final authResponse = AuthResponse.fromMap(json);
@@ -29,18 +31,12 @@ class AuthProvider extends ChangeNotifier {
       LocalStorage.prefs.setString('token', authResponse.token);
       //LocalStorage.prefs.getString('token');
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
+      CafeApi.configureDio();
       notifyListeners();
     }).catchError((e) {
       print('Error en: $e');
       NotificationsService.showSnackBarError('User or Password not valid');
     });
-    
-    
-    
-    // Todo peticion http
-
-
-
 
     _token = 'asasasasasaasdwwesdsdasdfgasg';
     LocalStorage.prefs.setString('token', _token!);
@@ -52,9 +48,10 @@ class AuthProvider extends ChangeNotifier {
     NavigationService.replaceTo(Flurorouter.dashboardRoute);
   }
 
+  // REGISTER
   register(String email, String password, String fullName) {
     final data = {'nombre': fullName, 'correo': email, 'password': password};
-
+    // Peticion http POST REGISTER
     CafeApi.httpPost('/usuarios', data).then((json) {
       print(json);
       final authResponse = AuthResponse.fromMap(json);
@@ -64,6 +61,7 @@ class AuthProvider extends ChangeNotifier {
       LocalStorage.prefs.setString('token', authResponse.token);
       //LocalStorage.prefs.getString('token');
       NavigationService.replaceTo(Flurorouter.dashboardRoute);
+      CafeApi.configureDio();
       notifyListeners();
     }).catchError((e) {
       print('Error en: $e');
@@ -71,22 +69,45 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
+  // Funcion para para validar autenticacion
   Future<bool> isAuthenticated() async {
-    // no esta autenticado
+    // NO esta autenticado
     final token = LocalStorage.prefs.getString('token');
-
     if (token == null) {
       authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
       return false;
     }
-    // esta autenticado
-    // TODO ir al backend y comprobar si el JWT es valido
 
-    //simulamos autenticacion
+    // SI esta autenticado
+    try {
+      // hacemos el get de la respuesta
+      final response = await CafeApi.httpGet('/auth');
+      final authRespponse = AuthResponse.fromMap(response);
+      LocalStorage.prefs.setString('token', authRespponse.token);
+      user = authRespponse.usuario;
+      authStatus = AuthStatus.authenticated;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print(e);
+      authStatus = AuthStatus.notAuthenticated;
+      notifyListeners();
+      return false;
+    }
+    // Se usaba antes para simular autenticacion
+    /*
     await Future.delayed(const Duration(seconds: 1));
     authStatus = AuthStatus.authenticated;
     notifyListeners();
     return true;
+    */
+  }
+
+  // LOGOUT
+  logout() {
+    LocalStorage.prefs.remove('token');
+    authStatus = AuthStatus.notAuthenticated;
+    notifyListeners();
   }
 }

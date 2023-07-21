@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/datatables/categories_datasource.dart';
+import 'package:flutter_admin_dashboard/providers/categories_provider.dart';
+import 'package:flutter_admin_dashboard/ui/buttons/custom_icon_button.dart';
 import 'package:flutter_admin_dashboard/ui/labels/custom_labels.dart';
+import 'package:provider/provider.dart';
 
 class CategoriesView extends StatefulWidget {
   const CategoriesView({super.key});
@@ -11,6 +14,12 @@ class CategoriesView extends StatefulWidget {
 
 class _CategoriesViewState extends State<CategoriesView> {
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<CategoriesProvider>(context, listen: false).getCategories();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +47,10 @@ class _CategoriesViewState extends State<CategoriesView> {
             },
             rowsPerPage: _rowsPerPage,
             actions: [
-              TextButton(
-                onPressed: () {},
-                child: const Text("I'm TextButton"),
+              CustomIconButton(
+                onPress: () {},
+                text: 'Crear',
+                icon: Icons.add,
               ),
             ],
           )

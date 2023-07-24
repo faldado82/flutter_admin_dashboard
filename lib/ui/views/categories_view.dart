@@ -3,6 +3,7 @@ import 'package:flutter_admin_dashboard/datatables/categories_datasource.dart';
 import 'package:flutter_admin_dashboard/providers/categories_provider.dart';
 import 'package:flutter_admin_dashboard/ui/buttons/custom_icon_button.dart';
 import 'package:flutter_admin_dashboard/ui/labels/custom_labels.dart';
+import 'package:flutter_admin_dashboard/ui/modals/category_modal.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesView extends StatefulWidget {
@@ -23,7 +24,10 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   Widget build(BuildContext context) {
+    final categorias = Provider.of<CategoriesProvider>(context).categorias;
+
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
@@ -38,7 +42,7 @@ class _CategoriesViewState extends State<CategoriesView> {
               DataColumn(label: Text('Created by')),
               DataColumn(label: Text('Actions')),
             ],
-            source: CategoriesDataTableSource(),
+            source: CategoriesDataTableSource(categorias, context),
             header: const Text('Available categories', maxLines: 2),
             onRowsPerPageChanged: (value) {
               setState(() {
@@ -48,7 +52,14 @@ class _CategoriesViewState extends State<CategoriesView> {
             rowsPerPage: _rowsPerPage,
             actions: [
               CustomIconButton(
-                onPress: () {},
+                onPress: () {
+                  showModalBottomSheet(backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (_) => const CategoryModal(
+                      categoria: null,
+                    ),
+                  );
+                },
                 text: 'Crear',
                 icon: Icons.add,
               ),

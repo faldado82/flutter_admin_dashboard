@@ -6,7 +6,7 @@ class NavbarAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipOval(
-      child: Container(
+      child: SizedBox(
           width: 40,
           height: 40,
           child: Image.network(

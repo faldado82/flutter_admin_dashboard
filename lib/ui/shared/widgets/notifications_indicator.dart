@@ -5,21 +5,19 @@ class NotificationsIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: [
-          const Icon(Icons.notifications_none_outlined,
-              color: Colors.grey, size: 35),
-          Positioned(
-            right: 2,
-            child: Container(
-              width: 7,
-              height: 7,
-              decoration: buildBoxDecoration(),
-            ),
+    return Stack(
+      children: [
+        const Icon(Icons.notifications_none_outlined,
+            color: Colors.grey, size: 35),
+        Positioned(
+          right: 2,
+          child: Container(
+            width: 7,
+            height: 7,
+            decoration: buildBoxDecoration(),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

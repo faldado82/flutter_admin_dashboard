@@ -5,7 +5,7 @@ import 'package:flutter_admin_dashboard/models/http/categories_response.dart';
 
 class CategoriesProvider extends ChangeNotifier {
   List<Categoria> categorias = [];
-  getCategories() async {
+  Future getCategories() async {
     final response = await CafeApi.httpGet('/categorias');
     final categoriesResponse = CategoriesResponse.fromMap(response);
     categorias = [...categoriesResponse.categorias];
@@ -23,6 +23,25 @@ class CategoriesProvider extends ChangeNotifier {
     } catch (e) {
       print(e);
       print('Error al crear categoria');
+    }
+  }
+
+  Future updateCategory(String id, String name) async {
+    final data = {"id": id, "name": name};
+    try {
+      await CafeApi.httpPut('categorias/$id', data);
+
+      // actualizo el nombre de la categoria
+      categorias = categorias.map((category) {
+        if (category.id != id) return category;
+        category.nombre = name;
+        return category;
+      }).toList();
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      print('Error el actualizar la categoria');
     }
   }
 }

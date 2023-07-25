@@ -78,6 +78,7 @@ class _CategoryModalState extends State<CategoryModal> {
                   await categoryProvider.newCategory(nombre);
                 } else {
                   // Editar o Actualizar
+                  await categoryProvider.updateCategory(id!, nombre);
                 }
                 Navigator.of(context).pop();
               },

@@ -15,7 +15,7 @@ class CafeApi {
   }
 
   // Peticiones Http
-  // GET
+  // GET - Read leer u OBTENER
   static Future httpGet(String path) async {
     try {
       final response = await _dio.get(path);
@@ -26,7 +26,7 @@ class CafeApi {
     }
   }
 
-  // POST
+  // POST - Create o CREAR
   static Future httpPost(String path, Map<String, dynamic> data) async {
     final formData = FormData.fromMap(data);
     try {
@@ -35,6 +35,19 @@ class CafeApi {
     } catch (e) {
       print(e);
       throw ('Error en POST del HTTP');
+    }
+  }
+
+
+  // PUT - Upodate o ACTUALIZAR
+  static Future httpPut(String path, Map<String, dynamic> data) async {
+    final formData = FormData.fromMap(data);
+    try {
+      final response = await _dio.put(path, data: formData);
+      return response.data;
+    } catch (e) {
+      print(e);
+      throw ('Error en PUT del HTTP');
     }
   }
 }

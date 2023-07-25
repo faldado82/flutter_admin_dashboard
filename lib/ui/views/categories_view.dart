@@ -51,9 +51,22 @@ class _CategoriesViewState extends State<CategoriesView> {
             },
             rowsPerPage: _rowsPerPage,
             actions: [
+              IconButton(
+                icon: Icon(Icons.add, color: Colors.indigo.withOpacity(0.8)),
+                onPressed: () {
+                  showModalBottomSheet(
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (_) => const CategoryModal(
+                      categoria: null,
+                    ),
+                  );
+                },
+              ),
               CustomIconButton(
                 onPress: () {
-                  showModalBottomSheet(backgroundColor: Colors.transparent,
+                  showModalBottomSheet(
+                    backgroundColor: Colors.transparent,
                     context: context,
                     builder: (_) => const CategoryModal(
                       categoria: null,

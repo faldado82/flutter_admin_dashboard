@@ -13,23 +13,25 @@ class CategoriesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Create New Category
   Future newCategory(String name) async {
     final data = {'nombre': name};
     try {
-      final json = await CafeApi.httpPost('categorias', data);
+      final json = await CafeApi.httpPost('/categorias', data);
       final newCategory = Categoria.fromMap(json);
       categorias.add(newCategory);
       notifyListeners();
     } catch (e) {
       print(e);
-      print('Error al crear categoria');
+      print('Error al crear nueva categoria');
     }
   }
 
+  // UPDATE - PUT
   Future updateCategory(String id, String name) async {
-    final data = {"id": id, "name": name};
+    final data = {"name": name};
     try {
-      await CafeApi.httpPut('categorias/$id', data);
+      await CafeApi.httpPut('/categorias/$id', data);
 
       // actualizo el nombre de la categoria
       categorias = categorias.map((category) {
@@ -40,8 +42,27 @@ class CategoriesProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print(e);
-      print('Error el actualizar la categoria');
+      print('$e, Error el actualizar la categoria');
+    }
+  }
+
+  // delete igual al update
+  Future deleteCategory(String id) async {
+    // delete no lleva payload
+    try {
+      // mando un mapa vacio, porque espera un payload {}
+      await CafeApi.httpDelete('/categorias/$id', {});
+
+      // SI ESTOY ELIMINANDO Y LA ACCION SALE BIEN
+      // LO UNICO QUE DEBE HACERSE ES REMOVER EL ELEMENTO DEL ARREGLO
+      // PODRIA RECORRER LAS CATEGORIAS PERO SI EXISTEN MUCHAS NO ES MUY PERFORMANTE
+      // PARA MEJORAR ESTO PODRIAMOS USAR UN FILTRO "REMOVE WHERE"
+
+      categorias.removeWhere((categoria) => categoria.id == id);
+
+      notifyListeners();
+    } catch (e) {
+      throw ('$e, Error el eliminar la categoria');
     }
   }
 }

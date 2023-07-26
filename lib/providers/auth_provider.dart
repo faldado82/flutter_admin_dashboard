@@ -38,7 +38,7 @@ class AuthProvider extends ChangeNotifier {
       NotificationsService.showSnackBarError('User or Password not valid');
     });
 
-    _token = 'asasasasasaasdwwesdsdasdfgasg';
+    //_token = 'asasasasasaasdwwesdsdasdfgasg';
     LocalStorage.prefs.setString('token', _token!);
     LocalStorage.prefs.getString('token');
 

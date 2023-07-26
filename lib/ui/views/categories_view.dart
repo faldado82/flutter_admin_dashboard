@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/datatables/categories_datasource.dart';
 import 'package:flutter_admin_dashboard/providers/categories_provider.dart';
-import 'package:flutter_admin_dashboard/ui/buttons/custom_icon_button.dart';
 import 'package:flutter_admin_dashboard/ui/labels/custom_labels.dart';
 import 'package:flutter_admin_dashboard/ui/modals/category_modal.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +26,8 @@ class _CategoriesViewState extends State<CategoriesView> {
     final categorias = Provider.of<CategoriesProvider>(context).categorias;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: ListView(
         physics: const ClampingScrollPhysics(),
         children: [
@@ -63,19 +63,19 @@ class _CategoriesViewState extends State<CategoriesView> {
                   );
                 },
               ),
-              CustomIconButton(
-                onPress: () {
-                  showModalBottomSheet(
-                    backgroundColor: Colors.transparent,
-                    context: context,
-                    builder: (_) => const CategoryModal(
-                      categoria: null,
-                    ),
-                  );
-                },
-                text: 'Crear',
-                icon: Icons.add,
-              ),
+              // CustomIconButton(
+              //   onPress: () {
+              //     showModalBottomSheet(
+              //       backgroundColor: Colors.transparent,
+              //       context: context,
+              //       builder: (_) => const CategoryModal(
+              //         categoria: null,
+              //       ),
+              //     );
+              //   },
+              //   text: 'Crear',
+              //   icon: Icons.add,
+              // ),
             ],
           )
         ],

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/models/category.dart';
+import 'package:flutter_admin_dashboard/providers/categories_provider.dart';
+import 'package:flutter_admin_dashboard/services/notifications_service.dart';
 import 'package:flutter_admin_dashboard/ui/modals/category_modal.dart';
+import 'package:provider/provider.dart';
 
 class CategoriesDataTableSource extends DataTableSource {
   final List<Categoria> categorias;
@@ -14,6 +17,7 @@ class CategoriesDataTableSource extends DataTableSource {
   @override
   DataRow getRow(int index) {
     final categoria = categorias[index];
+
     return DataRow.byIndex(
         index: index, // necesario para no tener error de keys
         cells: [
@@ -43,14 +47,17 @@ class CategoriesDataTableSource extends DataTableSource {
                     actions: [
                       TextButton(
                         onPressed: () {
-                          //TODO Accion cancelar la eliminacion
+                          // Cancelar Eliminacion
                           Navigator.of(context).pop();
                         },
                         child: const Text('No'),
                       ),
                       TextButton(
-                        onPressed: () {
-                          //TODO Accion de borrar la database
+                        onPressed: () async {
+                          // Confirmar Eliminacion
+                          final provider =  Provider.of<CategoriesProvider>(context, listen: false);
+                          await provider.deleteCategory(categoria.id);
+                          NotificationsService.showSnackBarSuccess('Category Deleted');
                           Navigator.of(context).pop(); // volvemos a la pantalla anterior
                         },
                         child: const Text('Yes, delete'),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/models/category.dart';
 import 'package:flutter_admin_dashboard/providers/categories_provider.dart';
+import 'package:flutter_admin_dashboard/services/notifications_service.dart';
 import 'package:flutter_admin_dashboard/ui/buttons/custom_outlined_button.dart';
 import 'package:flutter_admin_dashboard/ui/inputs/custom_inputs.dart';
 import 'package:flutter_admin_dashboard/ui/labels/custom_labels.dart';
@@ -73,14 +74,21 @@ class _CategoryModalState extends State<CategoryModal> {
             alignment: Alignment.center,
             child: CustomOutlinedButton(
               onPressed: () async {
-                if (id == null) {
-                  // Crear
-                  await categoryProvider.newCategory(nombre);
-                } else {
-                  // Editar o Actualizar
-                  await categoryProvider.updateCategory(id!, nombre);
+                try {
+                  if (id == null) {
+                    // Crear
+                    await categoryProvider.newCategory(nombre);
+                    NotificationsService.showSnackBarSuccess('$nombre created !');
+                  } else {
+                    // Editar o Actualizar
+                    await categoryProvider.updateCategory(id!, nombre);
+                    NotificationsService.showSnackBarSuccess('$nombre updated !');
+                  }
+                  Navigator.of(context).pop();
+                } catch (e) {
+                  Navigator.of(context).pop();
+                  NotificationsService.showSnackBarSuccess('No se pudo crear o actualizar');
                 }
-                Navigator.of(context).pop();
               },
               text: 'Guardar',
               color: Colors.white,

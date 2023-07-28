@@ -20,8 +20,7 @@ class RegisterView extends StatelessWidget {
     return ChangeNotifierProvider(
         create: (_) => RegisterFormProvider(),
         child: Builder(builder: (context) {
-          final registerFormProvider =
-              Provider.of<RegisterFormProvider>(context, listen: false);
+          final registerFormProvider = Provider.of<RegisterFormProvider>(context, listen: false);
 
           return Container(
               //margin: const EdgeInsets.only(top: 100),
@@ -39,8 +38,7 @@ class RegisterView extends StatelessWidget {
                           //Nombre y Apellido
                           TextFormField(
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[a-zA-ZÀ-ÿ.\s]')),
+                              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZÀ-ÿ.\s]')),
                               // Permite solo letras y espacios
                               _CapitalizedWordsTextFormatter(),
                             ],
@@ -53,10 +51,8 @@ class RegisterView extends StatelessWidget {
                               }
                               return null;
                             },
-                            onChanged: (value) =>
-                                registerFormProvider.fullName = value,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 20),
+                            onChanged: (value) => registerFormProvider.fullName = value,
+                            style: const TextStyle(color: Colors.white, fontSize: 20),
                             decoration: CustomInputs.loginInputDecoration(
                                 hint: 'Enter your Full Name',
                                 label: 'First and Last Name',
@@ -65,16 +61,14 @@ class RegisterView extends StatelessWidget {
                           const SizedBox(height: 20),
                           //Email
                           TextFormField(
-                            onChanged: (value) =>
-                                registerFormProvider.email = value,
+                            onChanged: (value) => registerFormProvider.email = value,
                             validator: (value) {
                               if (!EmailValidator.validate(value ?? '')) {
                                 return 'Email not valid'; // si el mail no es valido se manda mensaje
                               }
                               return null;
                             },
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 20),
+                            style: const TextStyle(color: Colors.white, fontSize: 20),
                             decoration: CustomInputs.loginInputDecoration(
                                 hint: 'Enter your email',
                                 label: 'Email',
@@ -83,8 +77,7 @@ class RegisterView extends StatelessWidget {
                           const SizedBox(height: 20),
                           //Password
                           TextFormField(
-                            onChanged: (value) =>
-                                registerFormProvider.password = value,
+                            onChanged: (value) => registerFormProvider.password = value,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Enter Your Password';
@@ -103,8 +96,7 @@ class RegisterView extends StatelessWidget {
                               return null; // Password valido
                             },
                             obscureText: true,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 20),
+                            style: const TextStyle(color: Colors.white, fontSize: 20),
                             decoration: CustomInputs.loginInputDecoration(
                                 hint: 'Enter your password',
                                 label: 'Password',
@@ -114,13 +106,11 @@ class RegisterView extends StatelessWidget {
 
                           CustomOutlinedButton(
                             onPressed: () {
-                              final validForm =
-                                  registerFormProvider.validateForm();
+                              final validForm = registerFormProvider.validateForm();
                               if (!validForm) return;
 
-                              final authProvider = Provider.of<AuthProvider>(
-                                  context,
-                                  listen: false);
+                              final authProvider =
+                                  Provider.of<AuthProvider>(context, listen: false);
                               authProvider.register(
                                 registerFormProvider.email,
                                 registerFormProvider.password,
@@ -136,8 +126,7 @@ class RegisterView extends StatelessWidget {
                           LinkText(
                             text: 'Go to Login',
                             onPressed: () {
-                              Navigator.pushNamed(
-                                  context, Flurorouter.loginRoute);
+                              Navigator.pushReplacementNamed(context, Flurorouter.loginRoute);
                             },
                           ),
                         ],
@@ -150,8 +139,7 @@ class RegisterView extends StatelessWidget {
 
 class _CapitalizedWordsTextFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     String capitalizedText = newValue.text.toLowerCase();
     List<String> words = capitalizedText.split(' ');
 

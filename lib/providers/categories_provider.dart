@@ -29,7 +29,7 @@ class CategoriesProvider extends ChangeNotifier {
 
   // UPDATE - PUT
   Future updateCategory(String id, String name) async {
-    final data = {"name": name};
+    final data = {'nombre': name};
     try {
       await CafeApi.httpPut('/categorias/$id', data);
 

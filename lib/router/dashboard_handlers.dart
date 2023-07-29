@@ -4,6 +4,7 @@ import 'package:flutter_admin_dashboard/providers/side_menu_provider.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
 import 'package:flutter_admin_dashboard/ui/views/blank_view.dart';
 import 'package:flutter_admin_dashboard/ui/views/categories_view.dart';
+import 'package:flutter_admin_dashboard/ui/views/customers_view.dart';
 import 'package:flutter_admin_dashboard/ui/views/dashbord_view.dart';
 import 'package:flutter_admin_dashboard/ui/views/icons_view.dart';
 import 'package:flutter_admin_dashboard/ui/views/login_view.dart';
@@ -26,8 +27,7 @@ class DashboardHandlers {
   // Icons Handler
   static Handler icons = Handler(handlerFunc: (context, parameters) {
     final authProvider = Provider.of<AuthProvider>(context!);
-    Provider.of<SideMenuProvider>(context, listen: false)
-        .setCurrentPageUrl(Flurorouter.iconsRoute);
+    Provider.of<SideMenuProvider>(context, listen: false).setCurrentPageUrl(Flurorouter.iconsRoute);
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
       return const IconsView();
@@ -52,11 +52,23 @@ class DashboardHandlers {
   // Blank Handler
   static Handler blank = Handler(handlerFunc: (context, parameters) {
     final authProvider = Provider.of<AuthProvider>(context!);
-    Provider.of<SideMenuProvider>(context, listen: false)
-        .setCurrentPageUrl(Flurorouter.blankRoute);
+    Provider.of<SideMenuProvider>(context, listen: false).setCurrentPageUrl(Flurorouter.blankRoute);
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
       return const BlankView();
+    } else {
+      return const LoginView();
+    }
+  });
+
+  // Customers Handler
+  static Handler customers = Handler(handlerFunc: (context, parameters) {
+    final authProvider = Provider.of<AuthProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.customersRoute);
+
+    if (authProvider.authStatus == AuthStatus.authenticated) {
+      return const CustomersView();
     } else {
       return const LoginView();
     }

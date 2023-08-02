@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/api/cafe_api.dart';
 import 'package:flutter_admin_dashboard/models/http/auth_response.dart';
+import 'package:flutter_admin_dashboard/models/usuario.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
 import 'package:flutter_admin_dashboard/services/local_storage.dart';
 import 'package:flutter_admin_dashboard/services/navigation_service.dart';

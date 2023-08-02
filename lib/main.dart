@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/api/cafe_api.dart';
 import 'package:flutter_admin_dashboard/providers/auth_provider.dart';
 import 'package:flutter_admin_dashboard/providers/categories_provider.dart';
+import 'package:flutter_admin_dashboard/providers/customers_providers.dart';
 import 'package:flutter_admin_dashboard/providers/side_menu_provider.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
 import 'package:flutter_admin_dashboard/services/local_storage.dart';
@@ -29,6 +30,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(lazy: false, create: (_) => AuthProvider()),
         ChangeNotifierProvider(lazy: false, create: (_) => SideMenuProvider()),
         ChangeNotifierProvider(create: (_) => CategoriesProvider()),
+        ChangeNotifierProvider(create: (_) => CustomersProvider()),
       ],
       child: const MyApp(),
     );

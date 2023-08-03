@@ -6,6 +6,8 @@ import 'package:flutter_admin_dashboard/models/usuario.dart';
 class CustomersProvider extends ChangeNotifier {
   List<Usuario> customers = [];
   bool isLoading = true;
+  bool ascending = true;
+  int? sortColumnIndex;
 
   CustomersProvider() {
     getPaginatedCustomers();
@@ -14,8 +16,30 @@ class CustomersProvider extends ChangeNotifier {
   getPaginatedCustomers() async {
     final response = await CafeApi.httpGet('/usuarios?limite=100&desde=0');
     final customersResponse = UsersResponse.fromMap(response);
-    customers = [... customersResponse.usuarios ];
+    customers = [...customersResponse.usuarios];
     isLoading = false;
+    notifyListeners();
+  }
+
+  Future<Usuario> getUserById(String uid) async {
+    try {
+      final response = await CafeApi.httpGet('/usuarios/$uid');
+      final userResponse = Usuario.fromMap(response);
+      return userResponse;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  void sort<T>(Comparable<T> Function(Usuario user) getField) {
+    customers.sort((a, b) {
+      final aValue = getField(a);
+      final bValue = getField(b);
+
+      return ascending ? Comparable.compare(aValue, bValue) : Comparable.compare(bValue, aValue);
+    });
+    ascending = !ascending;
     notifyListeners();
   }
 }

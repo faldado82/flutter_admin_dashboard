@@ -4,6 +4,7 @@ import 'package:flutter_admin_dashboard/providers/side_menu_provider.dart';
 import 'package:flutter_admin_dashboard/router/router.dart';
 import 'package:flutter_admin_dashboard/ui/views/blank_view.dart';
 import 'package:flutter_admin_dashboard/ui/views/categories_view.dart';
+import 'package:flutter_admin_dashboard/ui/views/customer_view.dart';
 import 'package:flutter_admin_dashboard/ui/views/customers_view.dart';
 import 'package:flutter_admin_dashboard/ui/views/dashbord_view.dart';
 import 'package:flutter_admin_dashboard/ui/views/icons_view.dart';
@@ -69,6 +70,22 @@ class DashboardHandlers {
 
     if (authProvider.authStatus == AuthStatus.authenticated) {
       return const CustomersView();
+    } else {
+      return const LoginView();
+    }
+  });
+
+  // User Handler
+  static Handler user = Handler(handlerFunc: (context, parameters) {
+    final authProvider = Provider.of<AuthProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false).setCurrentPageUrl(Flurorouter.userRoute);
+
+    if (authProvider.authStatus == AuthStatus.authenticated) {
+      if (parameters['uid']?.first != null) {
+        return CustomerView(uid: parameters['uid']!.first);
+      } else {
+        return const CustomersView();
+      }
     } else {
       return const LoginView();
     }

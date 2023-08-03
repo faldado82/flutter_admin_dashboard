@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/datatables/customers_datasource.dart';
+import 'package:flutter_admin_dashboard/providers/customers_providers.dart';
 import 'package:flutter_admin_dashboard/ui/labels/custom_labels.dart';
+import 'package:provider/provider.dart';
 
 class CustomersView extends StatefulWidget {
   const CustomersView({super.key});
@@ -10,7 +12,7 @@ class CustomersView extends StatefulWidget {
 }
 
 class _CustomersViewState extends State<CustomersView> {
-  int _rowsPerPage = 100; //PaginatedDataTable.defaultRowsPerPage;
+  int _rowsPerPage = 10; //PaginatedDataTable.defaultRowsPerPage;
 
   @override
   void initState() {
@@ -20,7 +22,9 @@ class _CustomersViewState extends State<CustomersView> {
 
   @override
   Widget build(BuildContext context) {
-    final customerDataSource = CustomersDataTableSource();
+    final customersProvider = Provider.of<CustomersProvider>(context);
+
+    final customerDataSource = CustomersDataTableSource(customersProvider.customers);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -30,12 +34,24 @@ class _CustomersViewState extends State<CustomersView> {
           Text('Customers View', style: CustomLabels.h1),
           const SizedBox(height: 30),
           PaginatedDataTable(
-            columns: const [
-              DataColumn(label: Text('Avatar')),
-              DataColumn(label: Text('Nombre')),
-              DataColumn(label: Text('Email')),
-              DataColumn(label: Text('Customer ID')),
-              DataColumn(label: Text('Actions')),
+            sortAscending: customersProvider.ascending,
+            sortColumnIndex: customersProvider.sortColumnIndex,
+            columns: [
+              const DataColumn(label: Text('Avatar')),
+              DataColumn(
+                  label: const Text('Nombre'),
+                  onSort: (colIndex, _) {
+                    customersProvider.sortColumnIndex = colIndex;
+                    customersProvider.sort<String>((user) => user.nombre);
+                  }),
+              DataColumn(
+                  label: const Text('Email'),
+                  onSort: (colIndex, _) {
+                    customersProvider.sortColumnIndex = colIndex;
+                    customersProvider.sort<String>((user) => user.correo);
+                  }),
+              const DataColumn(label: Text('Customer ID')),
+              const DataColumn(label: Text('Actions')),
             ],
             source: customerDataSource,
             header: const Text('Available categories', maxLines: 2),
@@ -45,20 +61,9 @@ class _CustomersViewState extends State<CustomersView> {
               });
             },
             rowsPerPage: _rowsPerPage,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.add, color: Colors.indigo.withOpacity(0.8)),
-                onPressed: () {
-                  // showModalBottomSheet(
-                  //   backgroundColor: Colors.transparent,
-                  //   context: context,
-                  //   builder: (_) => const CategoryModal(
-                  //     categoria: null,
-                  //   ),
-                  // );
-                },
-              ),
-            ],
+            onPageChanged: (page) {
+              print(page);
+            },
           )
         ],
       ),

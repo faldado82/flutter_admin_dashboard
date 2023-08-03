@@ -42,4 +42,15 @@ class CustomersProvider extends ChangeNotifier {
     ascending = !ascending;
     notifyListeners();
   }
+
+  void refreshUsers(Usuario newUser) {
+    customers = customers.map((user) {
+      if (user.uid == newUser.uid) {
+        user = newUser;
+      }
+      return user;
+    }).toList();
+
+    notifyListeners();
+  }
 }

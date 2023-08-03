@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/models/usuario.dart';
 import 'package:flutter_admin_dashboard/providers/customers_providers.dart';
+import 'package:flutter_admin_dashboard/providers/user_form_provider.dart';
+import 'package:flutter_admin_dashboard/services/notifications_service.dart';
 import 'package:flutter_admin_dashboard/ui/cards/white_card.dart';
 import 'package:flutter_admin_dashboard/ui/inputs/custom_inputs.dart';
 import 'package:flutter_admin_dashboard/ui/labels/custom_labels.dart';
@@ -23,10 +26,14 @@ class _CustomerViewState extends State<CustomerView> {
   void initState() {
     super.initState();
     final userProvider = Provider.of<CustomersProvider>(context, listen: false);
-    userProvider.getUserById(widget.uid).then((userDB) => setState(() {
-          user = userDB;
-        }));
-    print(widget.uid);
+    final userFormProvider = Provider.of<UserFormProvider>(context, listen: false);
+
+    userProvider.getUserById(widget.uid).then((userDB) {
+      userFormProvider.user = userDB;
+      setState(() {
+        user = userDB;
+      });
+    });
   }
 
   @override
@@ -81,33 +88,63 @@ class _UserViewForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userFormProvider = Provider.of<UserFormProvider>(context);
+    final paginatedUsers = Provider.of<CustomersProvider>(context);
+    final user = userFormProvider.user!;
+
     return WhiteCard(
       title: 'General Info',
       child: Form(
+          key: userFormProvider.formKey,
           autovalidateMode: AutovalidateMode.always,
           child: Column(
             children: [
               const SizedBox(height: 18),
               TextFormField(
+                initialValue: user.nombre,
                 decoration: CustomInputs.formInputDecoration(
                   hint: 'Write your user name',
                   label: 'Name',
                   icon: Icons.supervised_user_circle_outlined,
                 ),
+                onChanged: (value) => userFormProvider.userCopyWith(nombre: value),
+                validator: (value) {
+                  if (value == null || value.isEmpty) return 'Please enter a name';
+                  if (value.length < 3) return 'The name must be 3 or more characters';
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
               TextFormField(
+                initialValue: user.correo,
                 decoration: CustomInputs.formInputDecoration(
                   hint: 'Write your emal',
                   label: 'Email',
                   icon: Icons.email_outlined,
                 ),
+                onChanged: (value) => userFormProvider.userCopyWith(correo: value),
+                // email_validator package
+                validator: (value) {
+                  if (!EmailValidator.validate(value ?? '')) {
+                    return 'Email not valid'; // si el mail no es valido se manda mensaje
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 100),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    // PUT actualizar usuario
+                    final saved = await userFormProvider.updateUser();
+                    if (saved) {
+                      NotificationsService.showSnackBarSuccess('User Updated');
+                      paginatedUsers.refreshUsers(user);
+                    } else {
+                      NotificationsService.showSnackBarError('User can not be saved');
+                    }
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.indigo),
                     shadowColor: MaterialStateProperty.all(Colors.transparent),
@@ -136,6 +173,8 @@ class _UserViewForm extends StatelessWidget {
 class _AvatarContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final userFormProvider = Provider.of<UserFormProvider>(context);
+    final user = userFormProvider.user!;
     return WhiteCard(
         width: 250,
         child: SizedBox(
@@ -178,9 +217,9 @@ class _AvatarContainer extends StatelessWidget {
                     ],
                   )),
               const SizedBox(height: 20),
-              const Text(
-                'User Name',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Text(
+                user.nombre,
+                style: const TextStyle(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               )
             ],

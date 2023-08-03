@@ -20,8 +20,8 @@ class CafeApi {
     try {
       final response = await _dio.get(path);
       return response.data;
-    } catch (e) {
-      print(e);
+    } on DioException catch (e) {
+      print(e.response);
       throw ('Error en GET del HTTP');
     }
   }

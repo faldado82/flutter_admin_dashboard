@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/models/usuario.dart';
 import 'package:flutter_admin_dashboard/providers/customers_providers.dart';
 import 'package:flutter_admin_dashboard/providers/user_form_provider.dart';
+import 'package:flutter_admin_dashboard/services/navigation_service.dart';
 import 'package:flutter_admin_dashboard/services/notifications_service.dart';
 import 'package:flutter_admin_dashboard/ui/cards/white_card.dart';
 import 'package:flutter_admin_dashboard/ui/inputs/custom_inputs.dart';
@@ -29,11 +30,23 @@ class _CustomerViewState extends State<CustomerView> {
     final userFormProvider = Provider.of<UserFormProvider>(context, listen: false);
 
     userProvider.getUserById(widget.uid).then((userDB) {
-      userFormProvider.user = userDB;
-      setState(() {
-        user = userDB;
-      });
+      if (userDB != null) {
+        userFormProvider.user = userDB;
+        userFormProvider.formKey = GlobalKey<FormState>();
+        setState(() {
+          user = userDB;
+        });
+      } else {
+        NavigationService.replaceTo('/dashboard/customers');
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    user = null;
+    Provider.of<UserFormProvider>(context, listen: false).user = null;
+    super.dispose();
   }
 
   @override

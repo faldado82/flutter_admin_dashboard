@@ -4,7 +4,7 @@ import 'package:flutter_admin_dashboard/models/usuario.dart';
 
 class UserFormProvider extends ChangeNotifier {
   //para manejar el key del form a traves de Provider
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late GlobalKey<FormState> formKey;
 
   Usuario? user;
 

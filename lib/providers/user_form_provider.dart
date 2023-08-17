@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_admin_dashboard/api/cafe_api.dart';
 import 'package:flutter_admin_dashboard/models/usuario.dart';
@@ -48,6 +50,18 @@ class UserFormProvider extends ChangeNotifier {
     } catch (e) {
       print('Error al actualizar usuario $e');
       return false;
+    }
+  }
+
+  Future<Usuario> uploadImage(String path, Uint8List bytes) async {
+    try {
+      final response = await CafeApi.uploadFile(path, bytes);
+      user = Usuario.fromMap(response);
+      notifyListeners();
+      return user!;
+    } catch (e) {
+      print(e);
+      throw 'Error en uploadImage de user_provider.dart';
     }
   }
 }

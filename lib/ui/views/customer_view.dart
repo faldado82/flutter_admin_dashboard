@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:email_validator/email_validator.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_dashboard/models/usuario.dart';
 import 'package:flutter_admin_dashboard/providers/customers_providers.dart';
@@ -216,8 +217,20 @@ class _AvatarContainer extends StatelessWidget {
                             border: Border.all(color: Colors.white, width: 5),
                           ),
                           child: FloatingActionButton(
-                            onPressed: () {
-                              //todo seleccionar imagen
+                            onPressed: () async {
+                              // editar imagen de perfil
+                              FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: ['jpg', 'webp', 'png', 'jpeg'],
+                                allowMultiple: false,
+                              );
+
+                              if (result != null) {
+                                userFormProvider.uploadImage(
+                                    '/uploads/usuarios/${user.uid}', result.files.first.bytes!);
+                              } else {
+                                // User canceled the picker
+                              }
                             },
                             elevation: 0,
                             backgroundColor: Colors.indigo,

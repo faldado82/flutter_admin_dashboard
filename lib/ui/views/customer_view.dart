@@ -77,28 +77,24 @@ class _CustomerViewState extends State<CustomerView> {
 class _UserViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Table(
-        // ancho de columna
-        columnWidths: const {0: FixedColumnWidth(250)},
-        children: [
-          TableRow(children: [
-            // avatar
-            _AvatarContainer(),
+    return Table(
+      // ancho de columna
+      columnWidths: const {0: FixedColumnWidth(250)},
+      children: [
+        TableRow(children: [
+          // avatar
+          _AvatarContainer(),
 
-            // formulario de actualizacion
-            const _UserViewForm(),
-          ])
-        ],
-      ),
+          // formulario de actualizacion
+          const _UserViewForm(),
+        ])
+      ],
     );
   }
 }
 
 class _UserViewForm extends StatelessWidget {
-  const _UserViewForm({
-    super.key,
-  });
+  const _UserViewForm();
 
   @override
   Widget build(BuildContext context) {
@@ -189,6 +185,10 @@ class _AvatarContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final userFormProvider = Provider.of<UserFormProvider>(context);
     final user = userFormProvider.user!;
+    final image = (user.img == null)
+        ? const Image(image: AssetImage('no-image.jpg'))
+        : FadeInImage.assetNetwork(placeholder: 'loader.gif', image: user.img!);
+
     return WhiteCard(
         width: 250,
         child: SizedBox(
@@ -204,7 +204,7 @@ class _AvatarContainer extends StatelessWidget {
                   child: Stack(
                     children: [
                       // avatar image
-                      const ClipOval(child: Image(image: AssetImage('no-image.jpg'))),
+                      ClipOval(child: image),
 
                       Positioned(
                         bottom: 5,
@@ -226,8 +226,12 @@ class _AvatarContainer extends StatelessWidget {
                               );
 
                               if (result != null) {
-                                userFormProvider.uploadImage(
+                                NotificationsService.showBusyIndicator(context);
+                                final newUser = await userFormProvider.uploadImage(
                                     '/uploads/usuarios/${user.uid}', result.files.first.bytes!);
+                                Provider.of<CustomersProvider>(context, listen: false)
+                                    .refreshUsers(newUser);
+                                Navigator.of(context).pop();
                               } else {
                                 // User canceled the picker
                               }

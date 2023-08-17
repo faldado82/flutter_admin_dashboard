@@ -11,12 +11,15 @@ class CustomersDataTableSource extends DataTableSource {
   DataRow getRow(int index) {
     final Usuario user = customers[index];
 
-    const image = Image(image: AssetImage('no-image.jpg'), width: 35, height: 35);
+    final image = (user.img == null)
+        ? const Image(image: AssetImage('no-image.jpg'), width: 35, height: 35)
+        : FadeInImage.assetNetwork(
+            placeholder: 'loader.gif', image: user.img!, width: 35, height: 35);
 
     return DataRow.byIndex(
         index: index, // necesario para no tener error de keys
         cells: [
-          const DataCell(ClipOval(child: image)),
+          DataCell(ClipOval(child: image)),
           DataCell(Text(user.nombre)),
           DataCell(Text(user.correo)),
           DataCell(Text(user.uid)),

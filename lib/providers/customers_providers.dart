@@ -27,7 +27,7 @@ class CustomersProvider extends ChangeNotifier {
       final userResponse = Usuario.fromMap(response);
       return userResponse;
     } catch (e) {
-      print(e);
+      //print(e);
       return null;
     }
   }

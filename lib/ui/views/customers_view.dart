@@ -16,7 +16,6 @@ class _CustomersViewState extends State<CustomersView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -62,7 +61,7 @@ class _CustomersViewState extends State<CustomersView> {
             },
             rowsPerPage: _rowsPerPage,
             onPageChanged: (page) {
-              print(page);
+              //print(page);
             },
           )
         ],

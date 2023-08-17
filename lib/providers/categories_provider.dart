@@ -9,7 +9,7 @@ class CategoriesProvider extends ChangeNotifier {
     final response = await CafeApi.httpGet('/categorias');
     final categoriesResponse = CategoriesResponse.fromMap(response);
     categorias = [...categoriesResponse.categorias];
-    print(categorias);
+    //print(categorias);
     notifyListeners();
   }
 
@@ -22,8 +22,8 @@ class CategoriesProvider extends ChangeNotifier {
       categorias.add(newCategory);
       notifyListeners();
     } catch (e) {
-      print(e);
-      print('Error al crear nueva categoria');
+      //print(e);
+      throw('Error al crear nueva categoria');
     }
   }
 
@@ -42,7 +42,7 @@ class CategoriesProvider extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      print('$e, Error el actualizar la categoria');
+      throw('$e, Error el actualizar la categoria');
     }
   }
 

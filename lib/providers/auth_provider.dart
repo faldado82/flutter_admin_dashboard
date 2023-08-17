@@ -24,7 +24,7 @@ class AuthProvider extends ChangeNotifier {
 
     // Peticion http POST LOGIN
     CafeApi.httpPost('/auth/login', data).then((json) {
-      print(json);
+      //print(json);
       final authResponse = AuthResponse.fromMap(json);
       user = authResponse.usuario;
       // navegar al dashboard
@@ -35,7 +35,7 @@ class AuthProvider extends ChangeNotifier {
       CafeApi.configureDio();
       notifyListeners();
     }).catchError((e) {
-      print('Error en: $e');
+      //print('Error en: $e');
       NotificationsService.showSnackBarError('User or Password not valid');
     });
 
@@ -54,7 +54,7 @@ class AuthProvider extends ChangeNotifier {
     final data = {'nombre': fullName, 'correo': email, 'password': password};
     // Peticion http POST REGISTER
     CafeApi.httpPost('/usuarios', data).then((json) {
-      print(json);
+      //print(json);
       final authResponse = AuthResponse.fromMap(json);
       user = authResponse.usuario;
       // navegar al dashboard
@@ -65,7 +65,7 @@ class AuthProvider extends ChangeNotifier {
       CafeApi.configureDio();
       notifyListeners();
     }).catchError((e) {
-      print('Error en: $e');
+      //print('Error en: $e');
       NotificationsService.showSnackBarError('User or Password not valid');
     });
   }
@@ -91,7 +91,7 @@ class AuthProvider extends ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      print(e);
+      //print(e);
       authStatus = AuthStatus.notAuthenticated;
       notifyListeners();
       return false;
